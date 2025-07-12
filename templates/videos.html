@@ -1,0 +1,22 @@
+<!-- templates/videos.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách video</title>
+</head>
+<body>
+    <h1>🎞 Danh sách video quay được</h1>
+    {% for vid in videos %}
+        <div style="margin-bottom: 20px;">
+            <video width="320" height="240" controls>
+                <source src="{{ url_for('get_video', filename=vid) }}" type="video/avi">
+                Trình duyệt của bạn không hỗ trợ video.
+            </video><br>
+            <a href="{{ url_for('get_video', filename=vid) }}" download>⬇️ Tải video: {{ vid }}</a>
+        </div>
+    {% endfor %}
+    <br>
+    <a href="{{ url_for('index') }}">⬅️ Quay lại camera</a>
+</body>
+</html>

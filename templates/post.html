@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bài đăng Facebook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .post {
+      background: white;
+      border-radius: 10px;
+      width: 500px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 16px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .username {
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .username img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .time {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .post-text {
+      margin: 10px 0;
+      font-size: 15px;
+    }
+
+    .post-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .reactions {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #65676b;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+
+    .action-btn {
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 15px;
+      color: #666;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .action-btn:hover {
+      color: #1877f2;
+    }
+
+    .reaction-menu {
+      display: none;
+      justify-content: space-around;
+      margin-top: 10px;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .reaction-menu img {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .comment-section {
+      margin-top: 15px;
+    }
+
+    .comment-input {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .comment {
+      background: #f0f2f5;
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to { opacity: 1 }
+    }
+  </style>
+</head>
+<body>
+  <div class="post">
+    <div class="user-info">
+      <img src="/ảnh/hi.jpg" class="avatar" />
+      <div>
+        <div class="username">
+          Nguyễn Thế Duy
+          <img src="/ảnh/acc-fb-co-nut-len-tich-xanh-cp-mail-random-quoc-gia_919700856.png" alt="tick xanh">
+        </div>
+        <div class="time">30 tháng 3 · 🌸</div>
+      </div>
+    </div>
+
+    <div class="post-text">
+      bọn mình chắc còn khoảng tầm hơn 60 ngày nữa là bọn mình thì vào cấp 3 r !! 🌸<br />
+      có mỗi buổi đi chơi ~ bọn mình cũng giữ tình bạn này lâu dài nha~...
+    </div>
+
+    <img src="/ảnh/494862902_1022294033333826_2324815831985653930_n.jpg" class="post-image" />
+
+    <div class="reaction-menu" id="reactionMenu">
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4f/1/32/1f44d.png" onclick="react('👍 Like')" title="Like" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/ta3/1/32/1f60d.png" onclick="react('❤️ Love')" title="Love" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t4c/1/32/1f923.png" onclick="react('😂 Haha')" title="Haha" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/te0/1/32/1f62e.png" onclick="react('😮 Wow')" title="Wow" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/t91/1/32/1f622.png" onclick="react('😢 Sad')" title="Sad" />
+      <img src="https://static.xx.fbcdn.net/images/emoji.php/v9/tf9/1/32/1f620.png" onclick="react('😡 Angry')" title="Angry" />
+    </div>
+
+    <div class="reactions" id="reactionText">
+      👍 Bạn, Do Thuy Linh, Dat Lee và 56,7K người khác
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="toggleReactions()">👍 Thích</button>
+      <button class="action-btn" onclick="focusComment()">💬 Bình luận</button>
+      <button class="action-btn" onclick="sharePost()">↪️ Chia sẻ</button>
+    </div>
+
+    <div class="comment-section">
+      <input id="commentInput" class="comment-input" placeholder="Viết bình luận..." onkeydown="handleComment(event)" />
+      <div id="commentList"></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleReactions() {
+      const menu = document.getElementById("reactionMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+
+    function react(type) {
+      document.getElementById("reactionText").innerText = `${type} · Bạn và 35 người khác`;
+      document.getElementById("reactionMenu").style.display = "none";
+    }
+
+    function handleComment(e) {
+      if (e.key === "Enter") {
+        const comment = e.target.value.trim();
+        if (comment !== "") {
+          const commentBox = document.createElement("div");
+          commentBox.className = "comment";
+          commentBox.innerText = comment;
+          document.getElementById("commentList").prepend(commentBox);
+          e.target.value = "";
+        }
+      }
+    }
+
+    function focusComment() {
+      document.getElementById("commentInput").focus();
+    }
+
+    function sharePost() {
+      const url = window.location.href;
+      window.open("https://facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "_blank");
+    }
+  </script>
+</body>
+</html>
