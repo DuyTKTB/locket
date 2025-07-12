@@ -4,6 +4,18 @@ import os
 import time
 from datetime import datetime
 import requests
+import os
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Hello từ Nguyễn Duy TK!"
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Railway yêu cầu dùng PORT từ môi trường
+    app.run(host="0.0.0.0", port=port)
 
 app = Flask(__name__)
 
